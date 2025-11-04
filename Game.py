@@ -31,7 +31,13 @@ def generate_dungeon():
     rooms[sword_pos]["item"] = "sword"
     rooms[monster_pos]["monster"] = True
 
+    # Add a key to a random room that isn't Cell or Exit
+    remaining_positions = [pos for pos in positions if pos not in (cell_pos, exit_pos)]
+    key_pos = random.choice(remaining_positions)
+    rooms[key_pos]["item"] = "key"
+
     return rooms, cell_pos, exit_pos
+
 
 # ------------------------------
 # Game Setup
