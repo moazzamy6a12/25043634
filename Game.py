@@ -3,7 +3,12 @@ from tkinter import messagebox
 import random
 
 # ------------------------------
-# Dungeon Generator
+
+# Dungeon Generatorz
+# Student Number: 2504 3634 01 
+# Student Name: Muhammad Moazzam Kiani 
+# y6a12@students.keele.ac.uk
+# ------------------------------
 # ------------------------------
 
 def generate_dungeon():
@@ -28,7 +33,13 @@ def generate_dungeon():
     rooms[sword_pos]["item"] = "sword"
     rooms[monster_pos]["monster"] = True
 
+    # Add a key to a random room that isn't Cell or Exit
+    remaining_positions = [pos for pos in positions if pos not in (cell_pos, exit_pos)]
+    key_pos = random.choice(remaining_positions)
+    rooms[key_pos]["item"] = "key"
+
     return rooms, cell_pos, exit_pos
+
 
 # ------------------------------
 # Game Setup
@@ -116,11 +127,11 @@ def check_win():
             messagebox.showwarning("Locked Door", "The door is locked! You need a key.")
 
 # ------------------------------
-# Map Drawing
+# Map Drawing with Emoji/Icons
 # ------------------------------
 
 def draw_map():
-    """Draw 3x3 grid map with discovered rooms."""
+    """Draw 3x3 grid map with discovered rooms and icons."""
     map_canvas.delete("all")
     cell_size = 80
 
@@ -132,29 +143,48 @@ def draw_map():
         if pos in discovered:
             if "monster" in data:
                 color = "#ff6961"
+                label = "👹"
             elif "item" in data:
                 color = "#ffd700"
+                if data["item"] == "sword":
+                    label = "🗡️"
+                elif data["item"] == "key":
+                    label = "🗝️"
             elif data["name"] == "Exit":
                 color = "#90ee90"
+                label = "🚪"
             else:
                 color = "#add8e6"
-            label = data["name"]
+                label = "🏠"
 
         outline = "red" if pos == current_pos else "black"
 
+        # Draw room rectangle
         map_canvas.create_rectangle(
             x * cell_size, y * cell_size,
             x * cell_size + cell_size, y * cell_size + cell_size,
             fill=color, outline=outline, width=2
         )
 
+        # Draw emoji or fallback letter
         if label:
-            map_canvas.create_text(
-                x * cell_size + cell_size / 2,
-                y * cell_size + cell_size / 2,
-                text=label,
-                font=("Arial", 8)
-            )
+            try:
+                # Try emoji with emoji-supporting font
+                map_canvas.create_text(
+                    x * cell_size + cell_size / 2,
+                    y * cell_size + cell_size / 2,
+                    text=label,
+                    font=("Segoe UI Emoji", 24)
+                )
+            except:
+                # Fallback to single letter
+                fallback = {"👹": "M", "🗡️": "S", "🗝️": "K", "🚪": "E", "🏠": "R"}
+                map_canvas.create_text(
+                    x * cell_size + cell_size / 2,
+                    y * cell_size + cell_size / 2,
+                    text=fallback.get(label, "?"),
+                    font=("Arial", 20)
+                )
 
 # ------------------------------
 # GUI Setup
@@ -192,10 +222,11 @@ get_button.pack(pady=5)
 inventory_label = tk.Label(window, text="Inventory: empty", font=("Arial", 10))
 inventory_label.pack(pady=5)
 
-# Map
+# Map canvas
 map_canvas = tk.Canvas(window, width=300, height=300, bg="#ddd")
 map_canvas.pack(pady=10)
 
 # Start game
 update_status()
 window.mainloop()
+# latest
