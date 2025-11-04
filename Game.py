@@ -3,7 +3,12 @@ from tkinter import messagebox
 import random
 
 # ------------------------------
-# Dungeon Generator
+
+# Dungeon Generatorz
+# Student Number: 2504 3634 01 
+# Student Name: Muhammad Moazzam Kiani 
+# y6a12@students.keele.ac.uk
+# ------------------------------
 # ------------------------------
 
 def generate_dungeon():
