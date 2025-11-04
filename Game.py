@@ -1,15 +1,22 @@
-import tkinter as tk
-from tkinter import messagebox
-import random
-
 # ------------------------------
 
 # Dungeon Generatorz
 # Student Number: 2504 3634 01 
 # Student Name: Muhammad Moazzam Kiani 
 # y6a12@students.keele.ac.uk
+# ------------------------------ 
+# "This project was developed with the assistance of ChatGPT (GPT-5-mini) for guidance, code suggestions, and debugging support."
+
 # ------------------------------
-# ------------------------------
+
+
+
+
+import tkinter as tk
+from tkinter import messagebox
+import random
+
+
 
 def generate_dungeon():
     """Generate a 3x3 grid dungeon with random special rooms."""
