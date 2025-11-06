@@ -17,6 +17,20 @@ from tkinter import messagebox
 import random
 
 
+# added a restart game option
+
+
+def restart_game():
+    global rooms, current_pos, exit_pos, inventory, discovered
+    rooms, current_pos, exit_pos = generate_dungeon()
+    inventory = []
+    discovered = {current_pos}
+    text_area.delete(1.0, tk.END)
+    draw_map()
+    update_status()
+
+
+
 
 def generate_dungeon():
     """Generate a 3x3 grid dungeon with random special rooms."""
@@ -206,6 +220,12 @@ title_label.pack(pady=5)
 
 text_area = tk.Text(window, height=8, width=60, wrap="word", bg="#f0f0f0")
 text_area.pack(padx=10, pady=5)
+
+
+# Restart button
+restart_button = tk.Button(window, text="Restart Game", command=restart_game, bg="#a0e7e5", width=20)
+restart_button.pack(pady=5)
+
 
 # Movement buttons
 button_frame = tk.Frame(window)
