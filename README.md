@@ -1,46 +1,75 @@
-**Game Name: Escape the Dungeon: 3x3 Grid Adventure  but with Modifications**
+# 🏰 Escape the Dungeon: 3x3 Grid Adventure  
 
-Student Number: 2504 3634 01 
-Student Name: Muhammad Moazzam Kiani
-y6a12@students.keele.ac.uk
+**Student Number:** 2504 3634 01  
+**Student Name:** Muhammad Moazzam Kiani  
+**Email:** [y6a12@students.keele.ac.uk](mailto:y6a12@students.keele.ac.uk)
 
+> 🧠 *"This project was developed with the assistance of ChatGPT (GPT-5-mini) for guidance, code suggestions, and debugging support."*
 
-**"This project was developed with the assistance of ChatGPT (GPT-5-mini) for guidance, code suggestions, and debugging support."**
+---
 
-**Assessment 2 Description**
+## 📝 Assessment 2 Description  
 
-Escape the Dungeon is a minimal, randomized adventure game built using Python and Tkinter. This project demonstrates the core mechanics of a classic dungeon crawler: randomized map generation, item collection, simple combat logic, and grid-based movement, all presented within a graphical user interface (GUI).
+**Escape the Dungeon** is a minimal, randomized adventure game built using **Python** and **Tkinter**.  
+This project demonstrates the core mechanics of a classic dungeon crawler:  
+- Randomized map generation  
+- Item collection  
+- Simple combat logic  
+- Grid-based movement  
 
-The game challenges the player to navigate a small 3x3 dungeon grid to find the Exit.
+All presented within a graphical user interface (GUI).  
 
-**Features**
+The challenge is simple: **navigate a 3x3 dungeon grid and find the Exit** — but beware of the Monster that lurks within!
 
-Randomized Layout: Every new game features a uniquely generated 3x3 dungeon grid. The locations of the Exit, the essential item (Sword), and the threat (Monster) are shuffled each time you play.
+---
 
-Survival Puzzle: The dungeon holds a deadly Monster. The player must strategically explore the rooms to find the Sword before encountering the Monster, as confronting the beast unarmed results in a game over.
+## ✨ Features  
 
-Simple GUI Map: A real-time 3x3 map is displayed, allowing players to visually track their progress and see which rooms they have discovered. The current room is highlighted for easy navigation.
+### 🧭 Randomized Layout  
+Every new game generates a unique 3x3 dungeon grid. The **Exit**, **Sword**, and **Monster** locations are shuffled each time you play.
 
-Item Management: Players can pick up items found in rooms, which are tracked in the inventory display.
+### 💀 Survival Puzzle  
+A deadly **Monster** hides somewhere in the dungeon.  
+You must find the **Sword** before encountering it — facing the beast unarmed means **game over**!
 
-Intuitive Controls: Movement is handled easily with North, South, East, and West directional buttons.
+### 🗺️ Simple GUI Map  
+A real-time **3x3 map** visually displays explored rooms.  
+Your **current location** is highlighted, making navigation intuitive.
 
-**How to Play**
+### 🧰 Item Management  
+Items discovered in rooms can be picked up and tracked in your **inventory** display.
 
-Start: You begin in the Cell (the starting room).
+### 🎮 Intuitive Controls  
+Movement is handled through directional buttons:  
+**North**, **South**, **East**, and **West**.
 
-Move: Use the directional buttons (North, South, East, West) to move between adjacent rooms.
+---
 
-Explore: Look for rooms containing an item, which you can collect using the "Pick Up Item" button.
+## 🕹️ How to Play  
 
-Survive: Be cautious! If you move into a room with a Monster, you must have the Sword in your inventory to survive.
+1. **Start:** Begin in the **Cell** (the starting room).  
+2. **Move:** Use the directional buttons to travel between adjacent rooms.  
+3. **Explore:** Search for rooms containing items and collect them with **“Pick Up Item.”**  
+4. **Survive:** Avoid the Monster unless you have the Sword in your inventory.  
+5. **Escape:** Find the **Exit room** to win and secure your freedom!
 
-Escape: The goal is to reach the Exit room and secure your freedom.
+---
 
-**Technology**
+## 🧪 Technology  
 
-**Language: Python
+| Component | Description |
+|------------|-------------|
+| **Language** | Python 🐍 |
+| **GUI Library** | Tkinter (Standard Library) 🪟 |
+| **Core Concept** | Grid-based navigation and object-oriented room/item placement ⚙️ |
 
-GUI Library: Tkinter (standard library)
+---
 
-Core Concept: Grid-based navigation and object-oriented room/item placement.**
+## 🧩 Summary  
+
+**Escape the Dungeon** blends simplicity and strategy into a small, replayable Python game.  
+Its clean GUI, randomization, and object-oriented design showcase fundamental game development principles in an accessible way.
+
+---
+
+💡 *Developed as part of Keele University coursework for educational demonstration purposes.*
