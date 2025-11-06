@@ -1,4 +1,4 @@
-# 🏰 Escape the Dungeon: 3x3 Grid Adventure  
+# 🏰 Escape the Dungeon: 4x3 Grid Adventure  
 
 **Student Number:** 2504 3634 01  
 **Student Name:** Muhammad Moazzam Kiani  
