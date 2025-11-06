@@ -1,6 +1,4 @@
-import tkinter as tk
-from tkinter import messagebox
-import random
+# ------------------------------
 
 # Dungeon Generatorz
 # Student Number: 2504 3634 01 
@@ -13,24 +11,40 @@ import random
 
 
 
-# ------------------------------
-grid_rows = 4
-grid_cols = 3
-cell_size = 80  # size of each room in pixels
-# ------------------------------
 
-def generate_dungeon(rows=grid_rows, cols=grid_cols):
-    """Generate a dungeon with random special rooms."""
-    positions = [(x, y) for x in range(cols) for y in range(rows)]
+import tkinter as tk
+from tkinter import messagebox
+import random
+
+
+# added a restart game option
+
+
+def restart_game():
+    global rooms, current_pos, exit_pos, inventory, discovered
+    rooms, current_pos, exit_pos = generate_dungeon()
+    inventory = []
+    discovered = {current_pos}
+    text_area.delete(1.0, tk.END)
+    draw_map()
+    update_status()
+
+
+
+
+def generate_dungeon():
+    """Generate a 3x3 grid dungeon with random special rooms."""
+    grid_size = 3
+    positions = [(x, y) for x in range(grid_size) for y in range(grid_size)]
     random.shuffle(positions)
 
-    # assigned rooms to coordinates
+    # Assign rooms to coordinates
     rooms = {}
     for idx, pos in enumerate(positions):
         rooms[pos] = {"name": f"Room {idx+1}"}
 
     # Randomly assign special rooms
-    special_rooms = random.sample(positions, 4)
+    special_rooms = random.sample(list(positions), 4)
     cell_pos, exit_pos, sword_pos, monster_pos = special_rooms
 
     rooms[cell_pos]["name"] = "Cell"
@@ -47,41 +61,56 @@ def generate_dungeon(rows=grid_rows, cols=grid_cols):
 
     return rooms, cell_pos, exit_pos
 
+
 # ------------------------------
-# Game State
+# Game Setup
 # ------------------------------
+
 rooms, current_pos, exit_pos = generate_dungeon()
 inventory = []
 discovered = {current_pos}
 
+grid_size = 3
+
 # ------------------------------
 # Game Logic
 # ------------------------------
+
 def update_status():
+    """Update room info, inventory, and map."""
     room_data = rooms[current_pos]
     text_area.delete(1.0, tk.END)
     text_area.insert(tk.END, f"You are in the {room_data['name']}\n")
+
     if "item" in room_data:
         text_area.insert(tk.END, f"You see a {room_data['item']} here.\n")
+
     text_area.insert(tk.END, "Where do you want to go?\n")
     inventory_label.config(text=f"Inventory: {', '.join(inventory) or 'empty'}")
     draw_map()
 
 def move(direction):
+    """Move between rooms using grid coordinates."""
     global current_pos
     x, y = current_pos
-    target = {
-        "north": (x, y-1),
-        "south": (x, y+1),
-        "east":  (x+1, y),
-        "west":  (x-1, y)
-    }.get(direction, None)
 
-    if target and target in rooms:
+    if direction == "north":
+        target = (x, y-1)
+    elif direction == "south":
+        target = (x, y+1)
+    elif direction == "east":
+        target = (x+1, y)
+    elif direction == "west":
+        target = (x-1, y)
+    else:
+        return
+
+    if target in rooms:
         current_pos = target
         discovered.add(current_pos)
         room_data = rooms[current_pos]
 
+        # Monster encounter
         if "monster" in room_data:
             if "sword" in inventory:
                 messagebox.showinfo("Battle!", "You fought bravely and defeated the monster! 🗡️")
@@ -97,6 +126,7 @@ def move(direction):
         messagebox.showinfo("Blocked", "You can't go that way!")
 
 def get_item():
+    """Pick up items."""
     room_data = rooms[current_pos]
     if "item" in room_data:
         item = room_data["item"]
@@ -108,6 +138,7 @@ def get_item():
         messagebox.showinfo("Nothing Here", "There is nothing to pick up here.")
 
 def check_win():
+    """Check for win condition."""
     room_data = rooms[current_pos]
     if room_data["name"] == "Exit":
         if "key" in inventory:
@@ -116,18 +147,15 @@ def check_win():
         else:
             messagebox.showwarning("Locked Door", "The door is locked! You need a key.")
 
-def restart_game():
-    global rooms, current_pos, exit_pos, inventory, discovered
-    rooms, current_pos, exit_pos = generate_dungeon()
-    inventory = []
-    discovered = {current_pos}
-    update_status()
+# ------------------------------
+# Map Drawing with Emoji/Icons
+# ------------------------------
 
-# ------------------------------
-# Map Drawing
-# ------------------------------
 def draw_map():
+    """Draw 3x3 grid map with discovered rooms and icons."""
     map_canvas.delete("all")
+    cell_size = 80
+
     for pos, data in rooms.items():
         x, y = pos
         color = "#888"  # unexplored
@@ -139,7 +167,10 @@ def draw_map():
                 label = "👹"
             elif "item" in data:
                 color = "#ffd700"
-                label = "🗡️" if data["item"]=="sword" else "🗝️"
+                if data["item"] == "sword":
+                    label = "🗡️"
+                elif data["item"] == "key":
+                    label = "🗝️"
             elif data["name"] == "Exit":
                 color = "#90ee90"
                 label = "🚪"
@@ -149,24 +180,29 @@ def draw_map():
 
         outline = "red" if pos == current_pos else "black"
 
+        # Draw room rectangle
         map_canvas.create_rectangle(
-            x*cell_size, y*cell_size,
-            x*cell_size+cell_size, y*cell_size+cell_size,
+            x * cell_size, y * cell_size,
+            x * cell_size + cell_size, y * cell_size + cell_size,
             fill=color, outline=outline, width=2
         )
 
+        # Draw emoji or fallback letter
         if label:
             try:
+                # Try emoji with emoji-supporting font
                 map_canvas.create_text(
-                    x*cell_size + cell_size/2,
-                    y*cell_size + cell_size/2,
-                    text=label, font=("Segoe UI Emoji", 24)
+                    x * cell_size + cell_size / 2,
+                    y * cell_size + cell_size / 2,
+                    text=label,
+                    font=("Segoe UI Emoji", 24)
                 )
             except:
+                # Fallback to single letter
                 fallback = {"👹": "M", "🗡️": "S", "🗝️": "K", "🚪": "E", "🏠": "R"}
                 map_canvas.create_text(
-                    x*cell_size + cell_size/2,
-                    y*cell_size + cell_size/2,
+                    x * cell_size + cell_size / 2,
+                    y * cell_size + cell_size / 2,
                     text=fallback.get(label, "?"),
                     font=("Arial", 20)
                 )
@@ -174,19 +210,22 @@ def draw_map():
 # ------------------------------
 # GUI Setup
 # ------------------------------
+
 window = tk.Tk()
-window.title("Escape the Dungeon 🏰 — 4x3 Grid Adventure")
-window.geometry(f"{grid_cols*cell_size+50}x{grid_rows*cell_size+250}")
+window.title("Escape the Dungeon 🏰 — 3x3 Random Adventure")
+window.geometry("600x550")
 
-title_label = tk.Label(window, text="Escape the Dungeon: 4x3 Grid Adventure", font=("Arial", 16, "bold"))
+title_label = tk.Label(window, text="Escape the Dungeon: 3x3 Grid Random Adventure", font=("Arial", 16, "bold"))
 title_label.pack(pady=5)
-
-# added a Restart Button
-restart_button = tk.Button(window, text="Restart Game", command=restart_game, bg="#a0e7e5", width=20)
-restart_button.pack(pady=5)
 
 text_area = tk.Text(window, height=8, width=60, wrap="word", bg="#f0f0f0")
 text_area.pack(padx=10, pady=5)
+
+
+# Restart button
+restart_button = tk.Button(window, text="Restart Game", command=restart_game, bg="#a0e7e5", width=20)
+restart_button.pack(pady=5)
+
 
 # Movement buttons
 button_frame = tk.Frame(window)
@@ -211,9 +250,10 @@ inventory_label = tk.Label(window, text="Inventory: empty", font=("Arial", 10))
 inventory_label.pack(pady=5)
 
 # Map canvas
-map_canvas = tk.Canvas(window, width=grid_cols*cell_size, height=grid_rows*cell_size, bg="#ddd")
+map_canvas = tk.Canvas(window, width=300, height=300, bg="#ddd")
 map_canvas.pack(pady=10)
 
 # Start game
 update_status()
 window.mainloop()
+# latest
