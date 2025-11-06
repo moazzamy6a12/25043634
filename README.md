@@ -19,7 +19,7 @@ This project demonstrates the core mechanics of a classic dungeon crawler:
 
 All presented within a graphical user interface (GUI).  
 
-The challenge is simple: **navigate a 3x3 dungeon grid and find the Exit** — but beware of the Monster that lurks within!
+The challenge is simple: **navigate a 4x3 dungeon grid and find the Exit** — but beware of the Monster that lurks within!
 
 ---
 
